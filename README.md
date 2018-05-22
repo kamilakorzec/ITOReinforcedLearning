@@ -2,7 +2,7 @@
 Final project for AI technologies
 
 
-##Projekt U4. Uczenie ze wzmacnianiem
+## Projekt U4. Uczenie ze wzmacnianiem
 Wykonać program przeznaczony do uczenia się agenta strategii poruszania się w świecie
 zadanym jako 2-wymiarowa macierz komórek. Wyrazić problem uczenia się strategii wyboru
 akcji jako uczenie ze wzmacnianiem.
