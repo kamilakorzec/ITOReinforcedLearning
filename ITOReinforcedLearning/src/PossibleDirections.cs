@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ITOReinforcedLearning.src
 {
-    class State
+    enum PossibleDirections
     {
-        public Grid Map;
-        public List<int> AgentPosition; 
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 }
