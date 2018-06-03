@@ -24,5 +24,15 @@ namespace ITOReinforcedLearning
         {
             InitializeComponent();
         }
+
+        void Act()
+        {
+
+        } 
+
+        void Train()
+        {
+
+        }
     }
 }

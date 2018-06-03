@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITOReinforcedLearning"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="ITOReinforcedLearning" Height="450" Width="800">
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom">
+            
+        </Grid>
+        <Grid DockPanel.Dock="Right">
+            <Button Name="train" Click="Train" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,100">Train</Button>
+            <Button Name="act" Click="Act" Width="100" Height="20" VerticalAlignment="Bottom" Margin="0,0,50,50" HorizontalAlignment="Right">Act</Button>
+        </Grid>
+    </DockPanel>
 </Window>
