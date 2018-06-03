@@ -9,11 +9,26 @@ namespace ITOReinforcedLearning.src
 {
     class QLearner
     {
-        private State[] qTable;
+        private Dictionary<string, float[]> qTable;
 
-        public void Q(State state, PossibleDirections action)
+        private float[] Zeros()
         {
+            return new float[] { 0, 0, 0, 0 };
+        }
 
+        public float Q(string state, PossibleDirections? action)
+        {
+            if (!qTable.ContainsKey(state))
+            {
+                qTable.Add(state, Zeros());
+            }
+
+            if (action == null)
+            {
+                float chosenAction = new Random().Next(4);
+                return qTable[state][(int) chosenAction];
+            }
+            return qTable[state][action.GetHashCode()];
         }
     }
 }
