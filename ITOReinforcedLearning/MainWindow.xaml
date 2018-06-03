@@ -5,19 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITOReinforcedLearning"
         mc:Ignorable="d"
-        Title="ITOReinforcedLearning" Height="450" Width="800">
+        Title="ITOReinforcedLearning" Height="450" Width="700">
     <DockPanel>
         <Grid DockPanel.Dock="Left" Width="500" Margin="20">
-            <Grid Width="200">
+            <Grid Width="200" HorizontalAlignment="Left">
                 <Label Height="30" VerticalAlignment="Top" Width="100">Number of rows/columns</Label>
-                <Label Height="30" VerticalAlignment="Top" Width="100">Number of steps</Label>
+                <Label Height="30" VerticalAlignment="Top" Width="100" Margin="0,30,0,100">Number of steps</Label>
             </Grid>
-            <Grid>
-                <Button Height="30" VerticalAlignment="Top" Width="100" HorizontalAlignment="Left"></Button>
-                <Button Height="30" VerticalAlignment="Top" Width="100"></Button>
-
+            <Grid HorizontalAlignment="Left" Margin="200,0,0,0">
+                <TextBox Height="25" VerticalAlignment="Top" Width="30"></TextBox>
+                <TextBox Height="25" VerticalAlignment="Top" Width="30" Margin="0,30,0,0"></TextBox>
             </Grid>
-            <Grid>
+            <Grid Margin="30,70,30,30">
                 
             </Grid>
         </Grid>
