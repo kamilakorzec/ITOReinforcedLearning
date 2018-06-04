@@ -8,10 +8,10 @@ namespace ITOReinforcedLearning.src
 {
     class Constants
     {
-        static double Epsilon = 0.5;
-        static double Gamma = 1.0;
-        static double Alpha = 10;
-        static double GetAlpha()
+        public double Epsilon = 0.5;
+        public double Gamma = 1.0;
+        public static double Alpha = 10;
+        public double GetAlpha()
         {
             return Alpha;
         }

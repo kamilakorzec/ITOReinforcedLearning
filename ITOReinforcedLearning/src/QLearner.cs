@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ITOReinforcedLearning.src;
 
 namespace ITOReinforcedLearning.src
 {
@@ -16,19 +15,21 @@ namespace ITOReinforcedLearning.src
             return new float[] { 0, 0, 0, 0 };
         }
 
-        public float Q(string state, PossibleDirections? action)
+        private string CreateDictKey(State state)
         {
-            if (!qTable.ContainsKey(state))
+            return state.ToString();
+        }
+
+        public float[] Q(State state)
+        {
+            string stateKey = CreateDictKey(state);
+
+            if (!qTable.ContainsKey(stateKey))
             {
-                qTable.Add(state, Zeros());
+                qTable.Add(stateKey, Zeros());
             }
 
-            if (action == null)
-            {
-                float chosenAction = new Random().Next(4);
-                return qTable[state][(int) chosenAction];
-            }
-            return qTable[state][action.GetHashCode()];
+            return qTable[stateKey];
         }
     }
 }
