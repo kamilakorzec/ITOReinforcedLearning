@@ -21,14 +21,41 @@ namespace ITOReinforcedLearning.src
             currentState = initialState;
         }
 
+        private void Move(State state, PossibleDirections action)
+        {
+            int[] pos = state.AgentPosition.Last();
+            int[] newPos = pos;
+            switch (action)
+            {
+                case PossibleDirections.DOWN:
+                    newPos[1]--;
+                    break;
+                case PossibleDirections.UP:
+                    newPos[1]++;
+                    break;
+                case PossibleDirections.LEFT:
+                    newPos[0]--;
+                    break;
+                case PossibleDirections.RIGHT:
+                    newPos[0]++;
+                    break;
+            }
+
+            state.AgentPosition.Add(newPos);
+        }
+
         private PossibleDirections getRandomAction()
         {
-            return PossibleDirections.DOWN;
+            return (PossibleDirections) new Random().Next(4);
         }
 
         public void Act(State state, PossibleDirections action)
         {
-            //do something
+            // move Agent
+            Move(state, action);
+
+            // update rewards
+            // do something
         }
 
         public PossibleDirections ChooseAction(State state)
@@ -38,10 +65,11 @@ namespace ITOReinforcedLearning.src
             // explore the environment
             if (rand < new Constants().Epsilon) return getRandomAction();
 
-            float[] totalRewards = learner.Q(state);
-            float biggestReward = totalRewards.Max();
-
-            return (PossibleDirections) Array.FindIndex(totalRewards, reward => reward == biggestReward);
+            Dictionary<PossibleDirections, double> totalRewards = learner.Q(state);
+            double[] rewardArr = totalRewards.Values.ToArray();
+            double biggestReward = rewardArr.Max();
+            
+            return totalRewards.Keys.ToArray()[Array.IndexOf(rewardArr, biggestReward)];
         }
     }
 }

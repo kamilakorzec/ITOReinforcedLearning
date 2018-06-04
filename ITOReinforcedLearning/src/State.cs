@@ -9,6 +9,6 @@ namespace ITOReinforcedLearning.src
     class State
     {
         public Grid Map;
-        public List<int> AgentPosition; 
+        public List<int[]> AgentPosition; 
     }
 }

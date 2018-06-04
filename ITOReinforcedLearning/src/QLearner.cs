@@ -8,11 +8,16 @@ namespace ITOReinforcedLearning.src
 {
     class QLearner
     {
-        private Dictionary<string, float[]> qTable;
+        private Dictionary<string, Dictionary<PossibleDirections, double>> qTable;
 
-        private float[] Zeros()
+        private Dictionary<PossibleDirections, double> Zeros()
         {
-            return new float[] { 0, 0, 0, 0 };
+            return new Dictionary<PossibleDirections, double>{
+                { PossibleDirections.UP, 0 },
+                { PossibleDirections.DOWN, 0 },
+                { PossibleDirections.LEFT, 0 },
+                { PossibleDirections.RIGHT, 0 },
+            };
         }
 
         private string CreateDictKey(State state)
@@ -20,7 +25,7 @@ namespace ITOReinforcedLearning.src
             return state.ToString();
         }
 
-        public float[] Q(State state)
+        public Dictionary<PossibleDirections, double> Q(State state)
         {
             string stateKey = CreateDictKey(state);
 
