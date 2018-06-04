@@ -25,12 +25,12 @@ namespace ITOReinforcedLearning
             InitializeComponent();
         }
 
-        void Act()
+        void Act(object sender, RoutedEventArgs e)
         {
 
         } 
 
-        void Train()
+        void Train(object sender, RoutedEventArgs e)
         {
 
         }

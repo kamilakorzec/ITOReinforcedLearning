@@ -55,8 +55,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\Agent.cs" />
+    <Compile Include="src\LearningConstants.cs" />
     <Compile Include="src\Grid.cs" />
     <Compile Include="src\LearningRunner.cs" />
+    <Compile Include="src\PossibleDirections.cs" />
     <Compile Include="src\QLearner.cs" />
     <Compile Include="src\State.cs" />
     <Compile Include="src\Tile.cs" />

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ITOReinforcedLearning.src
 {
-    class Constants
+    static class LearningConstants
     {
-        public double Epsilon = 0.5;
-        public double Gamma = 1.0;
+        public static double Epsilon = 0.5;
+        public static double Gamma = 1.0;
         public static double Alpha = 10;
-        public double GetAlpha()
+        public static double GetAlpha()
         {
             return Alpha;
         }

@@ -63,7 +63,7 @@ namespace ITOReinforcedLearning.src
             double rand = new Random().NextDouble();
 
             // explore the environment
-            if (rand < new Constants().Epsilon) return getRandomAction();
+            if (rand < LearningConstants.Epsilon) return getRandomAction();
 
             Dictionary<PossibleDirections, double> totalRewards = learner.Q(state);
             double[] rewardArr = totalRewards.Values.ToArray();

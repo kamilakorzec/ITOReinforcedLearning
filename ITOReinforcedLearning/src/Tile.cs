@@ -8,9 +8,18 @@ namespace ITOReinforcedLearning.src
 {
     class Tile
     {
-        public PossibleDirections Wall;
+        public List<PossibleDirections> Walls;
         public Dictionary<string, float> Coordinates;
-        public List<float> LearningHistory;
+        public List<float> LearningHistory = new List<float>();
+
+        Tile(
+            List<PossibleDirections> walls,
+            Dictionary<string, float> coordinates
+        )
+        {
+            Walls = walls;
+            Coordinates = coordinates;
+        }
 
         public float getAverageReward()
         {
