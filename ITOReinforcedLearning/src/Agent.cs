@@ -8,7 +8,6 @@ namespace ITOReinforcedLearning.src
 {
     class Agent
     {
-        private PossibleDirections directions;
         private State currentState;
         private QLearner learner;
 
@@ -27,6 +26,9 @@ namespace ITOReinforcedLearning.src
             int[] newPos = pos;
             switch (action)
             {
+                // todo - add restrictions:
+                // don't go outside the grid
+                // don't go if the wall is there
                 case PossibleDirections.DOWN:
                     newPos[1]--;
                     break;
@@ -44,26 +46,35 @@ namespace ITOReinforcedLearning.src
             state.AgentPosition.Add(newPos);
         }
 
-        private PossibleDirections getRandomAction()
+        private void UpdateRewards(State state)
+        {
+            //if position didn't change, big fine
+            //if position hits exit, big reward (discounted with time)
+            //if position change, small fine
+        }
+
+        private PossibleDirections GetRandomAction()
         {
             return (PossibleDirections) new Random().Next(4);
         }
 
-        public void Act(State state, PossibleDirections action)
+        public bool Act(State state, PossibleDirections action)
         {
+            bool isDone = false;
             // move Agent
             Move(state, action);
 
-            // update rewards
-            // do something
+            UpdateRewards(state);
+
+            return isDone;
         }
 
         public PossibleDirections ChooseAction(State state)
         {
-            double rand = new Random().NextDouble();
+            double rand = new Random(LearningConstants.RandomSeed).NextDouble();
 
             // explore the environment
-            if (rand < LearningConstants.Epsilon) return getRandomAction();
+            if (rand < LearningConstants.Epsilon) return GetRandomAction();
 
             Dictionary<PossibleDirections, double> totalRewards = learner.Q(state);
             double[] rewardArr = totalRewards.Values.ToArray();
