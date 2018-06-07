@@ -6,10 +6,25 @@ using System.Threading.Tasks;
 
 namespace ITOReinforcedLearning.src
 {
+    enum Rewards
+    {
+        EXIT,
+        WALL,
+        SINGLE_STEP
+    }
+
     class Agent
     {
         private State currentState;
         private QLearner learner;
+
+        private Dictionary<Rewards, int> rewards = new Dictionary<Rewards, int>
+        {
+            {Rewards.EXIT, 1000},
+            {Rewards.SINGLE_STEP, -1},
+            {Rewards.WALL, -1000},
+        };
+            
 
         Agent(
             State initialState,
@@ -46,11 +61,24 @@ namespace ITOReinforcedLearning.src
             state.AgentPosition.Add(newPos);
         }
 
-        private void UpdateRewards(State state)
+        private double UpdateRewards(State state)
         {
+            double reward = rewards[Rewards.SINGLE_STEP];
             //if position didn't change, big fine
             //if position hits exit, big reward (discounted with time)
-            //if position change, small fine
+            //if position change, small fine (-1)
+            return reward;
+        }
+
+        private void UpdateQTableVals(State state, PossibleDirections action, double reward)
+        {
+            double biggestNextReward = learner.Q(state).Values.ToArray().Max();
+
+            //todo: get second from end state
+            learner.Q(state)[action] =
+                learner.Q(state)[action] +
+                LearningConstants.Alpha *
+                    (reward + LearningConstants.Gamma * biggestNextReward - learner.Q(state)[action]);
         }
 
         private PossibleDirections GetRandomAction()
@@ -60,13 +88,14 @@ namespace ITOReinforcedLearning.src
 
         public bool Act(State state, PossibleDirections action)
         {
-            bool isDone = false;
             // move Agent
             Move(state, action);
 
-            UpdateRewards(state);
+            double reward = UpdateRewards(state);
 
-            return isDone;
+            UpdateQTableVals(state, action, reward);
+
+            return reward == rewards[Rewards.EXIT];
         }
 
         public PossibleDirections ChooseAction(State state)

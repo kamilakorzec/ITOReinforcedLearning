@@ -31,19 +31,12 @@ namespace ITOReinforcedLearning.src
                     // TODO
                     bool isDone = agent.Act(new State(), PossibleDirections.UP);
 
-                    UpdateQFunction();
-
                     if(isDone)
                     {
                         break;
                     }
                 }
             }
-        }
-
-        private void UpdateQFunction()
-        {
-
         }
     }
 }
