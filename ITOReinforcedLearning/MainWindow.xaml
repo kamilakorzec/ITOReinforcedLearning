@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITOReinforcedLearning"
         mc:Ignorable="d"
-        Title="ITOReinforcedLearning" Height="450" Width="700">
+        Title="ITOReinforcedLearning" Height="470" Width="700">
     <DockPanel>
         <Grid DockPanel.Dock="Left" Width="500" Margin="20">
             <Grid Width="200" HorizontalAlignment="Left">
@@ -13,14 +13,14 @@
                 <Label Height="30" VerticalAlignment="Top" Width="100" Margin="0,30,0,100">Number of steps</Label>
             </Grid>
             <Grid HorizontalAlignment="Left" Margin="200,0,0,0">
-                <TextBox Height="25" VerticalAlignment="Top" Width="30" Name="Dimention"></TextBox>
+                <TextBox Height="25" VerticalAlignment="Top" Width="30" Name="Dimension"></TextBox>
                 <TextBox Height="25" VerticalAlignment="Top" Width="30" Margin="0,30,0,0" Name="StepNumbers"></TextBox>
             </Grid>
             <Grid HorizontalAlignment="Left" Margin="300,0,0,0" Height="50" VerticalAlignment="Top">
                 <Button Height="25" Width="100" Click="UpdateGrid">Update grid</Button>
             </Grid>
-            <Grid Margin="30,70,30,30">
-                <DataGrid Name="LearningGrid"></DataGrid>
+            <Grid Margin="30,70,30,30" Height="300" Width="300">
+                <DataGrid Name="LearningGrid" AutoGenerateColumns="False" HeadersVisibility="None" CanUserAddRows="false"></DataGrid>
             </Grid>
         </Grid>
         <Grid DockPanel.Dock="Right">
