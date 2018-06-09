@@ -14,6 +14,14 @@ namespace ITOReinforcedLearning.src
         private Agent agent;
         private bool learningDone;
 
+        public LearningRunner(
+            Grid grid,
+            int[] agentPosition
+        )
+        {
+            map = grid;
+        }
+
         public void Act()
         {
 
