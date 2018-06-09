@@ -9,22 +9,24 @@ namespace ITOReinforcedLearning.src
     class LearningRunner
     {
         private int stepLimit;
-        private int triesCount;
         private Grid map;
         private Agent agent;
-        private bool learningDone;
+        public bool learningDone = false;
 
         public LearningRunner(
             Grid grid,
-            int[] agentPosition
+            int[] agentPosition,
+            int limit
         )
         {
             map = grid;
+            stepLimit = limit;
+            agent = new Agent(new State(grid, agentPosition));
         }
 
         public void Act()
         {
-
+            //what should be here?
         }
 
         public void Learn(int stepLimit, Grid map, int[] agentPos)
@@ -35,12 +37,11 @@ namespace ITOReinforcedLearning.src
             {
                 for(int j = 0; j < stepLimit; j++)
                 {
-                    // go through a maze
-                    // TODO
                     bool isDone = agent.Act(new State(map, agentPos), PossibleDirections.UP);
 
                     if(isDone)
                     {
+                        learningDone = true;
                         break;
                     }
                 }

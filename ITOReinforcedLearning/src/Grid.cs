@@ -10,13 +10,15 @@ namespace ITOReinforcedLearning.src
     {
         private Tile[][] tiles;
         private List<Tile> exits;
+        public int Dimension;
 
         public Grid(
             int dimension,
             List<int[]> exits
         )
         {
-           tiles = new Tile[dimension][];
+            tiles = new Tile[dimension][];
+            Dimension = dimension;
         }
 
         public Tile GetTileByCoordinates(int x, int y)

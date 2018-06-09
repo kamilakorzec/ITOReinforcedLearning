@@ -47,7 +47,15 @@ namespace ITOReinforcedLearning
             int dimension = int.Parse(this.Dimension.Text);
             int tryCount = int.Parse(this.StepNumbers.Text);
 
-            //runner = new LearningRunner(new src.Grid(), new int[] { 1, 2 });
+            ObservableCollection<ObservableCollection<UIGridTile>> rows = (ObservableCollection<ObservableCollection<UIGridTile>>) this.LearningGrid.ItemsSource;
+
+            foreach(ObservableCollection<UIGridTile> row in rows)
+            {
+                foreach(UIGridTile tile in row)
+                {
+                    // build an actual Grid
+                }
+            }
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)

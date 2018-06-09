@@ -26,12 +26,11 @@ namespace ITOReinforcedLearning.src
         };
             
 
-        Agent(
-            State initialState,
-            QLearner qLearner
+        public Agent(
+            State initialState
         )
         {
-            learner = qLearner;
+            learner = new QLearner();
             currentState = initialState;
         }
 
@@ -39,22 +38,26 @@ namespace ITOReinforcedLearning.src
         {
             int[] pos = state.AgentPosition.Last();
             int[] newPos = pos;
+            int dimension = state.Map.Dimension;
             switch (action)
             {
                 // todo - add restrictions:
-                // don't go outside the grid
                 // don't go if the wall is there
-                case PossibleDirections.DOWN:
-                    newPos[1]--;
-                    break;
                 case PossibleDirections.UP:
-                    newPos[1]++;
+                    if(newPos[1] > 0) 
+                        newPos[1]--;
+                    break;
+                case PossibleDirections.DOWN:
+                    if (newPos[1] < dimension - 1)
+                        newPos[1]++;
                     break;
                 case PossibleDirections.LEFT:
-                    newPos[0]--;
+                    if (newPos[0] > 0)
+                        newPos[0]--;
                     break;
                 case PossibleDirections.RIGHT:
-                    newPos[0]++;
+                    if (newPos[0] < dimension - 1)
+                        newPos[0]++;
                     break;
             }
 
@@ -72,13 +75,13 @@ namespace ITOReinforcedLearning.src
 
         private void UpdateQTableVals(State state, PossibleDirections action, double reward)
         {
-            double biggestNextReward = learner.Q(state).Values.ToArray().Max();
-
-            //todo: get second from end state
-            learner.Q(state)[action] =
-                learner.Q(state)[action] +
+            double biggestNextReward = learner.Q(state.AgentPosition.Last()).Values.ToArray().Max();
+            int[] previousState = state.AgentPosition[state.AgentPosition.Count - 2];
+            
+            learner.Q(previousState)[action] =
+                learner.Q(previousState)[action] +
                 LearningConstants.Alpha *
-                    (reward + LearningConstants.Gamma * biggestNextReward - learner.Q(state)[action]);
+                    (reward + LearningConstants.Gamma * biggestNextReward - learner.Q(previousState)[action]);
         }
 
         private PossibleDirections GetRandomAction()
@@ -105,7 +108,7 @@ namespace ITOReinforcedLearning.src
             // explore the environment
             if (rand < LearningConstants.Epsilon) return GetRandomAction();
 
-            Dictionary<PossibleDirections, double> totalRewards = learner.Q(state);
+            Dictionary<PossibleDirections, double> totalRewards = learner.Q(state.AgentPosition.Last());
             double[] rewardArr = totalRewards.Values.ToArray();
             double biggestReward = rewardArr.Max();
             

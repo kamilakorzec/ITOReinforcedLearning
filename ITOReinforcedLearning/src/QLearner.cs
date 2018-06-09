@@ -20,12 +20,12 @@ namespace ITOReinforcedLearning.src
             };
         }
 
-        private string CreateDictKey(State state)
+        private string CreateDictKey(int[] state)
         {
             return state.ToString();
         }
 
-        public Dictionary<PossibleDirections, double> Q(State state)
+        public Dictionary<PossibleDirections, double> Q(int[] state)
         {
             string stateKey = CreateDictKey(state);
 
