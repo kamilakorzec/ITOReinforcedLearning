@@ -19,7 +19,7 @@ namespace ITOReinforcedLearning.src
 
         }
 
-        public void Learn(int stepLimit, Grid map)
+        public void Learn(int stepLimit, Grid map, int[] agentPos)
         {
             //probably to be moved to a separate function?
             //as a common part of Learn and Act
@@ -29,7 +29,7 @@ namespace ITOReinforcedLearning.src
                 {
                     // go through a maze
                     // TODO
-                    bool isDone = agent.Act(new State(), PossibleDirections.UP);
+                    bool isDone = agent.Act(new State(map, agentPos), PossibleDirections.UP);
 
                     if(isDone)
                     {

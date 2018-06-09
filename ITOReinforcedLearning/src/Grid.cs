@@ -11,6 +11,14 @@ namespace ITOReinforcedLearning.src
         private Tile[][] tiles;
         private List<Tile> exits;
 
+        public Grid(
+            int dimension,
+            List<int[]> exits
+        )
+        {
+           tiles = new Tile[dimension][];
+        }
+
         public Tile GetTileByCoordinates(int x, int y)
         {
             return tiles[x][y];

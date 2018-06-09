@@ -25,12 +25,17 @@ namespace ITOReinforcedLearning
             InitializeComponent();
         }
 
-        void Act(object sender, RoutedEventArgs e)
+        private void Act(object sender, RoutedEventArgs e)
         {
 
         } 
 
-        void Train(object sender, RoutedEventArgs e)
+        private void Train(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateGrid(object sender, RoutedEventArgs e)
         {
 
         }
