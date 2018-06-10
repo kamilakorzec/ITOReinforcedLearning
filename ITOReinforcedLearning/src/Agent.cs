@@ -67,8 +67,15 @@ namespace ITOReinforcedLearning.src
         private double UpdateRewards(State state)
         {
             double reward = rewards[Rewards.SINGLE_STEP];
+
             //if position didn't change, big fine
+            if (state.AgentPosition.Last() == state.AgentPosition[state.AgentPosition.Count - 2])
+                reward = rewards[Rewards.WALL];
+
             //if position hits exit, big reward (discounted with time)
+            if (state.Map.IsExit(state.AgentPosition.Last()))
+                reward = rewards[Rewards.EXIT];
+
             //if position change, small fine (-1)
             return reward;
         }

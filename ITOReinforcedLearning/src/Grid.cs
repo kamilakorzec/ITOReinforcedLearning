@@ -9,21 +9,27 @@ namespace ITOReinforcedLearning.src
     class Grid
     {
         private Tile[][] tiles;
-        private List<Tile> exits;
+        private List<int[]> exits;
         public int Dimension;
 
         public Grid(
             int dimension,
-            List<int[]> exits
+            List<int[]> exitCoordinates
         )
         {
             tiles = new Tile[dimension][];
             Dimension = dimension;
+            exits = exitCoordinates;
         }
 
         public Tile GetTileByCoordinates(int x, int y)
         {
             return tiles[x][y];
+        }
+
+        public bool IsExit(int[] coordinates)
+        {
+            return exits.Contains(coordinates);
         }
     }
 }
