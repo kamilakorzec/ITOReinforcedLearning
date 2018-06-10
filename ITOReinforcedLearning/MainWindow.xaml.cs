@@ -77,7 +77,6 @@ namespace ITOReinforcedLearning
                 var column = new DataGridTemplateColumn
                 {
                     Width = new DataGridLength(1, DataGridLengthUnitType.Star),
-                    CellTemplate = new DataTemplate()
                 };
                 this.LearningGrid.Columns.Add(column);
             }
@@ -85,6 +84,41 @@ namespace ITOReinforcedLearning
             double margin = 8;
             this.LearningGrid.RowHeight = (this.LearningGrid.RenderSize.Height - margin) / dimension;
             this.LearningGrid.ItemsSource = list;
+        }
+
+        private void SetWallUp(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetWallLeft(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetWallDown(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetWallRight(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetAgent(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ToggleWallOrExit()
+        {
+
+        }
+
+        private void ClearPreviousAgent()
+        {
+
         }
 
         private void SetWallsOrAgent(object sender, RoutedEventArgs e)

@@ -20,10 +20,22 @@
                 <Button Height="25" Width="100" Click="UpdateGrid">Update grid</Button>
             </Grid>
             <Grid Margin="30,70,30,30" Height="300" Width="300">
-                <DataGrid Name="LearningGrid" AutoGenerateColumns="False" HeadersVisibility="None" IsReadOnly="true">
+                <DataGrid Name="LearningGrid" AutoGenerateColumns="False" HeadersVisibility="None" IsReadOnly="true" GridLinesVisibility="None">
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <EventSetter Event="PreviewMouseDown" Handler="SetWallsOrAgent"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Button Height="5px" VerticalAlignment="Top" Click="SetWallUp"></Button>
+                                            <Button Width="5px" HorizontalAlignment="Right" Click="SetWallRight"></Button>
+                                            <Button Height="5px" VerticalAlignment="Bottom" Click="SetWallDown"></Button>
+                                            <Button Width="5px" HorizontalAlignment="Left" Click="SetWallLeft"></Button>
+                                            <Button Margin="10" Background="AliceBlue" Click="SetAgent"></Button>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGrid.CellStyle>
                 </DataGrid>
