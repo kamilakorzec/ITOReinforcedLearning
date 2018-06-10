@@ -8,7 +8,7 @@ namespace ITOReinforcedLearning.src
 {
     class QLearner
     {
-        private Dictionary<string, Dictionary<PossibleDirections, double>> qTable;
+        private Dictionary<string, Dictionary<PossibleDirections, double>> qTable= new Dictionary<string, Dictionary<PossibleDirections, double>> { };
 
         private Dictionary<PossibleDirections, double> Zeros()
         {

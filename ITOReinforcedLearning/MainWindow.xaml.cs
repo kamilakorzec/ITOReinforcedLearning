@@ -30,7 +30,8 @@ namespace ITOReinforcedLearning
     /// </summary>
     public partial class MainWindow : Window
     {
-        LearningRunner runner;
+        private LearningRunner runner;
+        private Button lastAgentPositionIndicator;
 
         public MainWindow()
         {
@@ -88,66 +89,89 @@ namespace ITOReinforcedLearning
 
         private void SetWallUp(object sender, RoutedEventArgs e)
         {
-
+            ToggleWallOrExit((Button) sender, PossibleDirections.UP);
         }
 
         private void SetWallLeft(object sender, RoutedEventArgs e)
         {
-
+            ToggleWallOrExit((Button)sender, PossibleDirections.LEFT);
         }
 
         private void SetWallDown(object sender, RoutedEventArgs e)
         {
-
+            ToggleWallOrExit((Button)sender, PossibleDirections.DOWN);
         }
 
         private void SetWallRight(object sender, RoutedEventArgs e)
         {
-
+            ToggleWallOrExit((Button)sender, PossibleDirections.RIGHT);
         }
 
         private void SetAgent(object sender, RoutedEventArgs e)
         {
+            Button button = (Button)sender;
 
-        }
+            UIGridTile tile = ((ObservableCollection<UIGridTile>)button.DataContext)
+                [((button.Parent as System.Windows.Controls.Grid).TemplatedParent as DataGridCell).TabIndex];
 
-        private void ToggleWallOrExit()
-        {
+            tile.Agent = !tile.Agent;
 
-        }
+            button.Background = tile.Agent ? Brushes.DarkSlateBlue : Brushes.LightGray;
 
-        private void ClearPreviousAgent()
-        {
-
-        }
-
-        private void SetWallsOrAgent(object sender, RoutedEventArgs e)
-        {
-            var cell = (DataGridCell) sender;
-            DataTemplate content = (DataTemplate) cell.Content;
-
-            FrameworkElementFactory factory = new FrameworkElementFactory(typeof(Image));
-
-            UIGridTile tile = ((ObservableCollection<UIGridTile>) cell.DataContext)[cell.TabIndex];
-
-            if(tile.Wall == null)
+            if (tile.Agent)
             {
-                tile.Wall = PossibleDirections.UP;
-            } else
+                ClearPreviousAgents(tile);
+                if (lastAgentPositionIndicator != null) {
+                    lastAgentPositionIndicator.Background = Brushes.LightGray;
+                }
+                lastAgentPositionIndicator = button;
+            }
+            else
             {
-                switch(tile.Wall) {
-                    case PossibleDirections.UP:
-                        tile.Wall = PossibleDirections.RIGHT;
-                        break;
-                    case PossibleDirections.RIGHT:
-                        tile.Wall = PossibleDirections.DOWN;
-                        break;
-                    case PossibleDirections.DOWN:
-                        tile.Wall = PossibleDirections.LEFT;
-                        break;
-                    default:
-                        tile.Wall = null;
-                        break;
+                lastAgentPositionIndicator = null;
+            }
+        }
+
+        private void ToggleWallOrExit(Button cellButton, PossibleDirections wallPosition)
+        {
+            UIGridTile tile = ((ObservableCollection<UIGridTile>)cellButton.DataContext)
+                [((cellButton.Parent as System.Windows.Controls.Grid).TemplatedParent as DataGridCell).TabIndex];
+
+            if (tile.Wall == wallPosition)
+            {
+                tile.Wall = null;
+                cellButton.Background = Brushes.LightGray;
+            }
+            else
+            {
+                tile.Wall = wallPosition;
+                cellButton.Background = Brushes.IndianRed;
+                ClearWallsInCell((System.Windows.Controls.Grid) cellButton.Parent, cellButton);
+            }
+        }
+
+        private void ClearWallsInCell(System.Windows.Controls.Grid cell, Button wall)
+        {
+            foreach(UIElement button in cell.Children)
+            {
+                if(button != wall && button != lastAgentPositionIndicator)
+                {
+                    (button as Button).Background = Brushes.LightGray;
+                }
+            }
+        }
+
+        private void ClearPreviousAgents(UIGridTile currentAgentPosition)
+        {
+            foreach(ObservableCollection<UIGridTile> row in LearningGrid.ItemsSource)
+            {
+                foreach (UIGridTile tile in row)
+                {
+                    if (tile.Agent && tile != currentAgentPosition)
+                    {
+                        tile.Agent = false;
+                        DataGridRow gridRow = (DataGridRow)LearningGrid.ItemContainerGenerator.ContainerFromItem(row);
+                    }
                 }
             }
         }
