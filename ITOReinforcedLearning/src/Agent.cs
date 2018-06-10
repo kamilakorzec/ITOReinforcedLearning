@@ -17,6 +17,7 @@ namespace ITOReinforcedLearning.src
     {
         private State currentState;
         private QLearner learner;
+        private Random random = new Random();
 
         private Dictionary<Rewards, int> rewards = new Dictionary<Rewards, int>
         {
@@ -26,9 +27,7 @@ namespace ITOReinforcedLearning.src
         };
             
 
-        public Agent(
-            State initialState
-        )
+        public Agent(State initialState)
         {
             learner = new QLearner();
             currentState = initialState;
@@ -115,7 +114,7 @@ namespace ITOReinforcedLearning.src
 
         private PossibleDirections GetRandomAction()
         {
-            return (PossibleDirections) new Random().Next(4);
+            return (PossibleDirections) random.Next(4);
         }
 
         public bool Act(State state, PossibleDirections action)
@@ -132,7 +131,7 @@ namespace ITOReinforcedLearning.src
 
         public PossibleDirections ChooseAction(State state)
         {
-            double rand = new Random(LearningConstants.RandomSeed).NextDouble();
+            double rand = random.NextDouble();
 
             // explore the environment
             if (rand < LearningConstants.Epsilon) return GetRandomAction();

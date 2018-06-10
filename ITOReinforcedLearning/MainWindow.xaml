@@ -9,8 +9,8 @@
     <DockPanel>
         <Grid DockPanel.Dock="Left" Width="500" Margin="20">
             <Grid Width="200" HorizontalAlignment="Left">
-                <Label Height="30" VerticalAlignment="Top" Width="100">Number of rows/columns</Label>
-                <Label Height="30" VerticalAlignment="Top" Width="100" Margin="0,30,0,100">Number of steps</Label>
+                <Label Height="30" VerticalAlignment="Top" Width="150">Number of rows/columns</Label>
+                <Label Height="30" VerticalAlignment="Top" Width="150" Margin="0,30,0,100">Number of steps</Label>
             </Grid>
             <Grid HorizontalAlignment="Left" Margin="200,0,0,0">
                 <TextBox Height="25" VerticalAlignment="Top" Width="30" Name="Dimension"></TextBox>
