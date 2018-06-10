@@ -64,6 +64,9 @@ namespace ITOReinforcedLearning
                 }
                 r++;
             }
+
+            //todo - add agent position
+            runner.Learn(tryCount * dimension, map, new int[] { 0, 0 });
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)
