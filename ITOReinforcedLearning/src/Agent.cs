@@ -41,23 +41,45 @@ namespace ITOReinforcedLearning.src
             int dimension = state.Map.Dimension;
             switch (action)
             {
-                // todo - add restrictions:
-                // don't go if the wall is there
                 case PossibleDirections.UP:
-                    if(newPos[1] > 0) 
+                    if(
+                        newPos[1] > 0 
+                        && 
+                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.UP) 
+                    )
+                    {
                         newPos[1]--;
+                    }
                     break;
                 case PossibleDirections.DOWN:
-                    if (newPos[1] < dimension - 1)
+                    if (
+                        newPos[1] < dimension - 1
+                        &&
+                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.DOWN)
+                    )
+                    {
                         newPos[1]++;
+                    }
                     break;
                 case PossibleDirections.LEFT:
-                    if (newPos[0] > 0)
+                    if (
+                        newPos[0] > 0
+                        &&
+                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.LEFT)
+                    )
+                    {
                         newPos[0]--;
+                    }
                     break;
                 case PossibleDirections.RIGHT:
-                    if (newPos[0] < dimension - 1)
+                    if (
+                        newPos[0] < dimension - 1
+                        &&
+                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.RIGHT)
+                    )
+                    {
                         newPos[0]++;
+                    }
                     break;
             }
 
