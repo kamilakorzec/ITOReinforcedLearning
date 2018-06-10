@@ -101,13 +101,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="src\assets\DOWN.png" />
-    <Resource Include="src\assets\RIGHT.png" />
-    <Resource Include="src\assets\UP.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="src\assets\LEFT.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

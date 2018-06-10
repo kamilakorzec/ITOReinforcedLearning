@@ -1,4 +1,4 @@
-﻿namespace ITOReinforcedLearning.src
+﻿namespace ITOReinforcedLearning.Learning
 {
     enum PossibleDirections
     {

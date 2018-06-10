@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITOReinforcedLearning.src
+namespace ITOReinforcedLearning.Learning
 {
     class QLearner
     {

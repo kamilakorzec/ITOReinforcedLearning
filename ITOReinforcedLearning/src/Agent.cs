@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITOReinforcedLearning.src
+namespace ITOReinforcedLearning.Learning
 {
     enum Rewards
     {
@@ -44,7 +44,7 @@ namespace ITOReinforcedLearning.src
                     if(
                         newPos[1] > 0 
                         && 
-                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.UP) 
+                        state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.UP
                     )
                     {
                         newPos[1]--;
@@ -54,7 +54,7 @@ namespace ITOReinforcedLearning.src
                     if (
                         newPos[1] < dimension - 1
                         &&
-                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.DOWN)
+                        state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.DOWN
                     )
                     {
                         newPos[1]++;
@@ -64,7 +64,7 @@ namespace ITOReinforcedLearning.src
                     if (
                         newPos[0] > 0
                         &&
-                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.LEFT)
+                        state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.LEFT
                     )
                     {
                         newPos[0]--;
@@ -74,7 +74,7 @@ namespace ITOReinforcedLearning.src
                     if (
                         newPos[0] < dimension - 1
                         &&
-                        !state.Map.GetTileByCoordinates(pos[0], pos[1]).Walls.Contains(PossibleDirections.RIGHT)
+                        state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.RIGHT
                     )
                     {
                         newPos[0]++;

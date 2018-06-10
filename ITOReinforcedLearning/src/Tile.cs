@@ -4,28 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITOReinforcedLearning.src
+namespace ITOReinforcedLearning.Learning
 {
     class Tile
     {
-        public List<PossibleDirections> Walls;
-        public PossibleDirections Exit;
-        public Dictionary<string, float> Coordinates;
+        public PossibleDirections? Wall;
+        public bool Exit;
+        public int[] Coordinates;
         public List<float> LearningHistory = new List<float>();
 
-        Tile(
-            List<PossibleDirections> walls,
-            Dictionary<string, float> coordinates,
-            PossibleDirections? exit
+        public Tile(
+            PossibleDirections? wall,
+            int[] coordinates,
+            bool exit = false
         )
         {
-            Walls = walls;
+            Wall = wall;
             Coordinates = coordinates;
             LearningHistory = new List<float> { 0 };
-            if(exit != null)
-            {
-                Exit = (PossibleDirections) exit;
-            }
+            Exit = exit;
         }
 
         public float getAverageReward()

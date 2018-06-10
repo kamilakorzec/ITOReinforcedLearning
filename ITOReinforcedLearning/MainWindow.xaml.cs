@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ITOReinforcedLearning.src;
+using ITOReinforcedLearning.Learning;
 
 namespace ITOReinforcedLearning
 {
@@ -32,6 +32,7 @@ namespace ITOReinforcedLearning
     {
         private LearningRunner runner;
         private Button lastAgentPositionIndicator;
+        private Learning.Grid map;
 
         public MainWindow()
         {
@@ -48,18 +49,29 @@ namespace ITOReinforcedLearning
             int dimension = int.Parse(this.Dimension.Text);
             int tryCount = int.Parse(this.StepNumbers.Text);
 
+            map = new Learning.Grid(dimension);
+
             ObservableCollection<ObservableCollection<UIGridTile>> rows = (ObservableCollection<ObservableCollection<UIGridTile>>) this.LearningGrid.ItemsSource;
 
+            int r = 0;
             foreach(ObservableCollection<UIGridTile> row in rows)
             {
+                int col = 0;
                 foreach(UIGridTile tile in row)
                 {
-                    // build an actual Grid
+                    map.AddTile(new Tile(tile.Wall, new int[] { r, col }, tile.Exit));
+                    col++;
                 }
+                r++;
             }
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)
+        {
+            PopulateGrid();
+        }
+
+        private void PopulateGrid()
         {
             ObservableCollection<ObservableCollection<UIGridTile>> list = new ObservableCollection<ObservableCollection<UIGridTile>>{ };
             this.LearningGrid.Columns.Clear();
