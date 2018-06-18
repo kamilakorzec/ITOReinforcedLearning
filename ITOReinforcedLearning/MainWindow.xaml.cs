@@ -21,17 +21,21 @@ namespace ITOReinforcedLearning
     {
         private LearningRunner runner;
         private Button lastAgentPositionIndicator;
+        private Button lastExitPositionIndicator;
         private int[] agentPos;
         private Learning.Grid map;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            this.act.IsEnabled = false;
+            this.train.IsEnabled = false;
         }
 
         private void Act(object sender, RoutedEventArgs e)
         {
-
+            runner.Act(agentPos);
         }
 
         private void Train(object sender, RoutedEventArgs e)
@@ -58,6 +62,8 @@ namespace ITOReinforcedLearning
             runner = new LearningRunner(map, agentPos, dimension * tryCount);
             
             runner.Learn(agentPos);
+
+            this.act.IsEnabled = true;
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)
@@ -130,16 +136,55 @@ namespace ITOReinforcedLearning
                 if (lastAgentPositionIndicator != null) {
                     lastAgentPositionIndicator.Background = Brushes.LightGray;
                 }
+
+                if (lastExitPositionIndicator != null)
+                {
+                    this.train.IsEnabled = true;
+                }
                 lastAgentPositionIndicator = button;
             }
             else
             {
                 lastAgentPositionIndicator = null;
+                this.train.IsEnabled = false;
+            }
+        }
+
+        private void SetExit(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+            UIGridTile tile = ((ObservableCollection<UIGridTile>)button.DataContext)
+                [((button.Parent as System.Windows.Controls.Grid).TemplatedParent as DataGridCell).TabIndex];
+
+            tile.Exit = !tile.Exit;
+
+            button.Background = tile.Exit ? Brushes.DarkSeaGreen : Brushes.LightGray;
+
+            if (tile.Exit)
+            {
+                ClearPreviousExits(tile);
+                if (lastExitPositionIndicator != null)
+                {
+                    lastExitPositionIndicator.Background = Brushes.LightGray;
+                }
+
+                if (lastAgentPositionIndicator != null)
+                {
+                    this.train.IsEnabled = true;
+                }
+                lastExitPositionIndicator = button;
+            }
+            else
+            {
+                lastExitPositionIndicator = null;
+                this.train.IsEnabled = false;
             }
         }
 
         private void ToggleWallOrExit(Button cellButton, PossibleDirections wallPosition)
         {
+            this.act.IsEnabled = false;
             UIGridTile tile = ((ObservableCollection<UIGridTile>)cellButton.DataContext)
                 [((cellButton.Parent as System.Windows.Controls.Grid).TemplatedParent as DataGridCell).TabIndex];
 
@@ -160,7 +205,7 @@ namespace ITOReinforcedLearning
         {
             foreach(UIElement button in cell.Children)
             {
-                if(button != wall && button != lastAgentPositionIndicator)
+                if(button != wall && button != lastAgentPositionIndicator && button != lastExitPositionIndicator)
                 {
                     (button as Button).Background = Brushes.LightGray;
                 }
@@ -190,6 +235,21 @@ namespace ITOReinforcedLearning
                     c++;
                 }
                 r++;
+            }
+        }
+
+        private void ClearPreviousExits(UIGridTile currentExitPosition)
+        {
+            foreach (ObservableCollection<UIGridTile> row in LearningGrid.ItemsSource)
+            {
+                foreach (UIGridTile tile in row)
+                {
+                    if (tile.Exit && tile != currentExitPosition)
+                    {
+                        tile.Exit = false;
+                        DataGridRow gridRow = (DataGridRow)LearningGrid.ItemContainerGenerator.ContainerFromItem(row);
+                    }
+                }
             }
         }
     }

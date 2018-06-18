@@ -35,12 +35,11 @@
 
         public void Learn(int[] agentPos)
         {
-            //probably to be moved to a separate function?
-            //as a common part of Learn and Act
-            State state = new State(map, agentPos);
             for (int i = 0; i < LearningConstants.LearningRounds; i++)
             {
-                for(int j = 0; j < stepLimit; j++)
+                State state = new State(map, agentPos);
+
+                for (int j = 0; j < stepLimit; j++)
                 {
                     bool isDone = agent.Act(state, agent.ChooseAction(state));
 
