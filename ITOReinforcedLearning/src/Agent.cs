@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITOReinforcedLearning.Learning
 {
@@ -129,12 +127,12 @@ namespace ITOReinforcedLearning.Learning
             return reward == rewards[Rewards.EXIT];
         }
 
-        public PossibleDirections ChooseAction(State state)
+        public PossibleDirections ChooseAction(State state, bool isLearning = true)
         {
             double rand = random.NextDouble();
 
             // explore the environment
-            if (rand < LearningConstants.Epsilon) return GetRandomAction();
+            if (isLearning && rand < LearningConstants.Epsilon) return GetRandomAction();
 
             Dictionary<PossibleDirections, double> totalRewards = learner.Q(state.AgentPosition.Last());
             double[] rewardArr = totalRewards.Values.ToArray();

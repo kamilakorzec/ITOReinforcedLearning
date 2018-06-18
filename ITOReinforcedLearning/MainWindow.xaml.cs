@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ITOReinforcedLearning.Learning;
 
 namespace ITOReinforcedLearning
@@ -32,6 +21,7 @@ namespace ITOReinforcedLearning
     {
         private LearningRunner runner;
         private Button lastAgentPositionIndicator;
+        private int[] agentPos;
         private Learning.Grid map;
 
         public MainWindow()
@@ -65,8 +55,9 @@ namespace ITOReinforcedLearning
                 r++;
             }
 
-            //todo - add agent position
-            runner.Learn(tryCount * dimension, map, new int[] { 0, 0 });
+            runner = new LearningRunner(map, agentPos, dimension * tryCount);
+            
+            runner.Learn(agentPos);
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)
@@ -178,16 +169,27 @@ namespace ITOReinforcedLearning
 
         private void ClearPreviousAgents(UIGridTile currentAgentPosition)
         {
+            int r = 0;
             foreach(ObservableCollection<UIGridTile> row in LearningGrid.ItemsSource)
             {
+                int c = 0;
                 foreach (UIGridTile tile in row)
                 {
-                    if (tile.Agent && tile != currentAgentPosition)
+                    if (tile.Agent)
                     {
-                        tile.Agent = false;
-                        DataGridRow gridRow = (DataGridRow)LearningGrid.ItemContainerGenerator.ContainerFromItem(row);
+                        if (tile != currentAgentPosition)
+                        {
+                            tile.Agent = false;
+                            DataGridRow gridRow = (DataGridRow)LearningGrid.ItemContainerGenerator.ContainerFromItem(row);
+                        }
+                        else
+                        {
+                            agentPos = new int[] { r, c };
+                        }
                     }
+                    c++;
                 }
+                r++;
             }
         }
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ITOReinforcedLearning.Learning
 {
@@ -22,7 +18,7 @@ namespace ITOReinforcedLearning.Learning
 
         private string CreateDictKey(int[] state)
         {
-            return state.ToString();
+            return state[0].ToString() + '_' + state[1].ToString();
         }
 
         public Dictionary<PossibleDirections, double> Q(int[] state)

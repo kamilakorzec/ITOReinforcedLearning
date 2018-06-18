@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ITOReinforcedLearning.Learning
+﻿namespace ITOReinforcedLearning.Learning
 {
     class LearningRunner
     {
@@ -24,20 +18,31 @@ namespace ITOReinforcedLearning.Learning
             agent = new Agent(new State(grid, agentPosition));
         }
 
-        public void Act()
+        public void Act(int[] agentPos)
         {
-            //what should be here?
+            State state = new State(map, agentPos);
+            for (int j = 0; j < stepLimit * 1000; j++)
+            {
+                bool isDone = agent.Act(state, agent.ChooseAction(state, false));
+
+                if (isDone)
+                {
+                    learningDone = true;
+                    break;
+                }
+            }
         }
 
-        public void Learn(int stepLimit, Grid map, int[] agentPos)
+        public void Learn(int[] agentPos)
         {
             //probably to be moved to a separate function?
             //as a common part of Learn and Act
-            for(int i = 0; i < LearningConstants.LearningRounds; i++)
+            State state = new State(map, agentPos);
+            for (int i = 0; i < LearningConstants.LearningRounds; i++)
             {
                 for(int j = 0; j < stepLimit; j++)
                 {
-                    bool isDone = agent.Act(new State(map, agentPos), PossibleDirections.UP);
+                    bool isDone = agent.Act(state, agent.ChooseAction(state));
 
                     if(isDone)
                     {
