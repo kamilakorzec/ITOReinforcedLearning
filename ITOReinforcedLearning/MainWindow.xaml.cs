@@ -235,22 +235,7 @@ namespace ITOReinforcedLearning
                 tile.Wall = wallPosition;
                 cellButton.Background = Brushes.IndianRed;
                 ClearWallsInCell((System.Windows.Controls.Grid) cellButton.Parent, cellButton);
-
-                if(wallPosition == PossibleDirections.UP)
-                {
-
-                } else // right
-                {
-                    try {
-                        UIGridTile nextTile = ((ObservableCollection<UIGridTile>)cellButton.DataContext)
-                            [((cellButton.Parent as System.Windows.Controls.Grid).TemplatedParent as DataGridCell).TabIndex+1];
-
-                        nextTile.Wall = PossibleDirections.LEFT;
-                    } catch(ArgumentOutOfRangeException e) //index out of bounds - last column
-                    {
-                        Console.Write(e);
-                    };
-                }
+                ClearWallsInCellsAround((System.Windows.Controls.Grid)cellButton.Parent);
             }
         }
 
@@ -263,6 +248,11 @@ namespace ITOReinforcedLearning
                     (button as Button).Background = Brushes.LightGray;
                 }
             }
+        }
+
+        private void ClearWallsInCellsAround(System.Windows.Controls.Grid cell)
+        {
+            //TODO - prevent touching walls to be put up at the same time
         }
 
         private void ClearPreviousAgents(UIGridTile currentAgentPosition)

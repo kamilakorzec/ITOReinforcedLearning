@@ -22,7 +22,7 @@ namespace ITOReinforcedLearning.Learning
 
         public Tile GetTileByCoordinates(int x, int y)
         {
-            return tiles[Dimension * x + y];
+            return tiles[Dimension * y + x];
         }
 
         public bool IsExit(int[] coordinates)

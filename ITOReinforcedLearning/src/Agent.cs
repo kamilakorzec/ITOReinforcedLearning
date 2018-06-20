@@ -43,6 +43,8 @@ namespace ITOReinforcedLearning.Learning
                         newPos[1] > 0 
                         && 
                         state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.UP
+                        &&
+                        state.Map.GetTileByCoordinates(pos[0], pos[1]-1).Wall != PossibleDirections.DOWN
                     )
                     {
                         newPos[1]--;
@@ -53,6 +55,8 @@ namespace ITOReinforcedLearning.Learning
                         newPos[1] < dimension - 1
                         &&
                         state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.DOWN
+                        &&
+                        state.Map.GetTileByCoordinates(pos[0], pos[1]+1).Wall != PossibleDirections.UP
                     )
                     {
                         newPos[1]++;
@@ -63,6 +67,8 @@ namespace ITOReinforcedLearning.Learning
                         newPos[0] > 0
                         &&
                         state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.LEFT
+                        &&
+                        state.Map.GetTileByCoordinates(pos[0]-1, pos[1]).Wall != PossibleDirections.RIGHT
                     )
                     {
                         newPos[0]--;
@@ -73,6 +79,8 @@ namespace ITOReinforcedLearning.Learning
                         newPos[0] < dimension - 1
                         &&
                         state.Map.GetTileByCoordinates(pos[0], pos[1]).Wall != PossibleDirections.RIGHT
+                        &&
+                        state.Map.GetTileByCoordinates(pos[0]+1, pos[1]).Wall != PossibleDirections.LEFT
                     )
                     {
                         newPos[0]++;
