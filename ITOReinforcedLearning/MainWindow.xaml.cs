@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,6 +15,18 @@ namespace ITOReinforcedLearning
         public PossibleDirections? Wall;
 
         public UIGridTile() { }
+    }
+
+    class AgentGridTile
+    {
+        public double Reward {get; set;}
+        public bool Agent = false;
+
+        public AgentGridTile(double reward, bool agent = false)
+        {
+            Reward = reward;
+            Agent = agent;
+        }
     }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -64,6 +78,8 @@ namespace ITOReinforcedLearning
             runner.Learn(agentPos);
 
             this.act.IsEnabled = true;
+
+            PopulateAgentGrid(map);
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)
@@ -99,24 +115,45 @@ namespace ITOReinforcedLearning
             this.LearningGrid.ItemsSource = list;
         }
 
+
+        private void PopulateAgentGrid(Learning.Grid grid)
+        {
+            ObservableCollection<ObservableCollection<AgentGridTile>> list = new ObservableCollection<ObservableCollection<AgentGridTile>> { };
+            this.AgentGrid.Columns.Clear();
+
+            int dimension = grid.Dimension;
+
+            for (int i = 0; i < dimension; i++)
+            {
+                var row = new ObservableCollection<AgentGridTile> { };
+                for (int j = 0; j < dimension; j++)
+                {
+                    Tile tile = grid.GetTileByCoordinates(i, j);
+
+                    row.Add(new AgentGridTile(tile.getAverageReward()));
+                }
+
+                list.Add(new ObservableCollection<AgentGridTile>(row));
+                var column = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+                };
+                this.AgentGrid.Columns.Add(column);
+            }
+
+            double margin = 8;
+            this.AgentGrid.RowHeight = (this.AgentGrid.RenderSize.Height - margin) / dimension;
+            this.AgentGrid.ItemsSource = list;
+        }
+
         private void SetWallUp(object sender, RoutedEventArgs e)
         {
-            ToggleWallOrExit((Button) sender, PossibleDirections.UP);
-        }
-
-        private void SetWallLeft(object sender, RoutedEventArgs e)
-        {
-            ToggleWallOrExit((Button)sender, PossibleDirections.LEFT);
-        }
-
-        private void SetWallDown(object sender, RoutedEventArgs e)
-        {
-            ToggleWallOrExit((Button)sender, PossibleDirections.DOWN);
+            ToggleWall((Button) sender, PossibleDirections.UP);
         }
 
         private void SetWallRight(object sender, RoutedEventArgs e)
         {
-            ToggleWallOrExit((Button)sender, PossibleDirections.RIGHT);
+            ToggleWall((Button)sender, PossibleDirections.RIGHT);
         }
 
         private void SetAgent(object sender, RoutedEventArgs e)
@@ -182,7 +219,7 @@ namespace ITOReinforcedLearning
             }
         }
 
-        private void ToggleWallOrExit(Button cellButton, PossibleDirections wallPosition)
+        private void ToggleWall(Button cellButton, PossibleDirections wallPosition)
         {
             this.act.IsEnabled = false;
             UIGridTile tile = ((ObservableCollection<UIGridTile>)cellButton.DataContext)
@@ -198,6 +235,22 @@ namespace ITOReinforcedLearning
                 tile.Wall = wallPosition;
                 cellButton.Background = Brushes.IndianRed;
                 ClearWallsInCell((System.Windows.Controls.Grid) cellButton.Parent, cellButton);
+
+                if(wallPosition == PossibleDirections.UP)
+                {
+
+                } else // right
+                {
+                    try {
+                        UIGridTile nextTile = ((ObservableCollection<UIGridTile>)cellButton.DataContext)
+                            [((cellButton.Parent as System.Windows.Controls.Grid).TemplatedParent as DataGridCell).TabIndex+1];
+
+                        nextTile.Wall = PossibleDirections.LEFT;
+                    } catch(ArgumentOutOfRangeException e) //index out of bounds - last column
+                    {
+                        Console.Write(e);
+                    };
+                }
             }
         }
 

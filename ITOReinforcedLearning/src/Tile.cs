@@ -8,7 +8,7 @@ namespace ITOReinforcedLearning.Learning
         public PossibleDirections? Wall;
         public bool Exit;
         public int[] Coordinates;
-        public List<float> LearningHistory = new List<float>();
+        public List<int> LearningHistory = new List<int>();
 
         public Tile(
             PossibleDirections? wall,
@@ -18,11 +18,11 @@ namespace ITOReinforcedLearning.Learning
         {
             Wall = wall;
             Coordinates = coordinates;
-            LearningHistory = new List<float> { 0 };
+            LearningHistory = new List<int> { 0 };
             Exit = exit;
         }
 
-        public float getAverageReward()
+        public double getAverageReward()
         {
             return LearningHistory.Average();
         }

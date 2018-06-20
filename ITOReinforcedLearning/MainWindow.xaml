@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ITOReinforcedLearning" Height="470" Width="700">
     <DockPanel>
-        <Grid DockPanel.Dock="Left" Width="500" Margin="20">
+        <Grid DockPanel.Dock="Left" Width="400" Margin="20">
             <Grid Width="200" HorizontalAlignment="Left">
                 <Label Height="30" VerticalAlignment="Top" Width="150">Number of rows/columns</Label>
                 <Label Height="30" VerticalAlignment="Top" Width="150" Margin="0,30,0,100">Number of steps</Label>
@@ -29,8 +29,6 @@
                                         <Grid>
                                             <Button Height="5px" VerticalAlignment="Top" Click="SetWallUp"></Button>
                                             <Button Width="5px" HorizontalAlignment="Right" Click="SetWallRight"></Button>
-                                            <Button Height="5px" VerticalAlignment="Bottom" Click="SetWallDown"></Button>
-                                            <Button Width="5px" HorizontalAlignment="Left" Click="SetWallLeft"></Button>
                                             <Button Margin="10" Height="20" VerticalAlignment="Top" Click="SetAgent"></Button>
                                             <Button Margin="10" Height="20" VerticalAlignment="Bottom" Click="SetExit"></Button>
                                         </Grid>
@@ -43,6 +41,19 @@
             </Grid>
         </Grid>
         <Grid DockPanel.Dock="Right">
+            <DataGrid Name="AgentGrid" Height="200" Width="200" VerticalAlignment="Top" Margin="20" HorizontalAlignment="Left"  HeadersVisibility="None" IsReadOnly="true"  AutoGenerateColumns="False" >
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <TextBlock Text="{Binding Path=Reward}"></TextBlock>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.CellStyle>
+            </DataGrid>
             <Button Name="train" Click="Train" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,100">Train</Button>
             <Button Name="act" Click="Act" Width="100" Height="20" VerticalAlignment="Bottom" Margin="0,0,50,50" HorizontalAlignment="Right">Act</Button>
         </Grid>

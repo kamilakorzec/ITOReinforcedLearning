@@ -83,9 +83,9 @@ namespace ITOReinforcedLearning.Learning
             state.AgentPosition.Add(newPos);
         }
 
-        private double UpdateRewards(State state)
+        private int UpdateRewards(State state)
         {
-            double reward = rewards[Rewards.SINGLE_STEP];
+            int reward = rewards[Rewards.SINGLE_STEP];
 
             //if position didn't change, big fine
             if (state.AgentPosition.Last() == state.AgentPosition[state.AgentPosition.Count - 2])
@@ -120,9 +120,13 @@ namespace ITOReinforcedLearning.Learning
             // move Agent
             Move(state, action);
 
-            double reward = UpdateRewards(state);
+            int reward = UpdateRewards(state);
 
             UpdateQTableVals(state, action, reward);
+            state.Map
+                .GetTileByCoordinates(state.AgentPosition.Last()[0], state.AgentPosition.Last()[1])
+                .LearningHistory
+                .Add(reward);
 
             return reward == rewards[Rewards.EXIT];
         }
