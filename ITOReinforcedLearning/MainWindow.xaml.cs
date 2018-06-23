@@ -17,12 +17,12 @@ namespace ITOReinforcedLearning
         public UIGridTile() { }
     }
 
-    class AgentGridTile
+    class PreviewGridTile
     {
         public double Reward {get; set;}
-        public bool Agent = false;
+        public string Agent = "";
 
-        public AgentGridTile(double reward, bool agent = false)
+        public PreviewGridTile(double reward, string agent = "")
         {
             Reward = reward;
             Agent = agent;
@@ -49,7 +49,9 @@ namespace ITOReinforcedLearning
 
         private void Act(object sender, RoutedEventArgs e)
         {
-            runner.Act(agentPos);
+            List<int[]> positions = runner.Act(agentPos);
+
+            PopulateGridWithAgentPosition(map, positions);
         }
 
         private void Train(object sender, RoutedEventArgs e)
@@ -67,7 +69,7 @@ namespace ITOReinforcedLearning
                 int col = 0;
                 foreach(UIGridTile tile in row)
                 {
-                    map.AddTile(new Tile(tile.Wall, new int[] { r, col }, tile.Exit));
+                    map.AddTile(new Tile(tile.Wall, new int[] { col, r }, tile.Exit));
                     col++;
                 }
                 r++;
@@ -79,7 +81,7 @@ namespace ITOReinforcedLearning
 
             this.act.IsEnabled = true;
 
-            PopulateAgentGrid(map);
+            PopulatePreviewGrid(map);
         }
 
         private void UpdateGrid(object sender, RoutedEventArgs e)
@@ -116,34 +118,72 @@ namespace ITOReinforcedLearning
         }
 
 
-        private void PopulateAgentGrid(Learning.Grid grid)
+        private void PopulatePreviewGrid(Learning.Grid grid)
         {
-            ObservableCollection<ObservableCollection<AgentGridTile>> list = new ObservableCollection<ObservableCollection<AgentGridTile>> { };
-            this.AgentGrid.Columns.Clear();
+            PreviewGrid.Children.Clear();
+            PreviewGrid.ColumnDefinitions.Clear();
+            PreviewGrid.RowDefinitions.Clear();
 
             int dimension = grid.Dimension;
 
             for (int i = 0; i < dimension; i++)
             {
-                var row = new ObservableCollection<AgentGridTile> { };
-                for (int j = 0; j < dimension; j++)
-                {
-                    Tile tile = grid.GetTileByCoordinates(i, j);
-
-                    row.Add(new AgentGridTile(tile.getAverageReward()));
-                }
-
-                list.Add(new ObservableCollection<AgentGridTile>(row));
-                var column = new DataGridTextColumn
-                {
-                    Width = new DataGridLength(1, DataGridLengthUnitType.Star),
-                };
-                this.AgentGrid.Columns.Add(column);
+                PreviewGrid.RowDefinitions.Add(new RowDefinition());
+                PreviewGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            double margin = 8;
-            this.AgentGrid.RowHeight = (this.AgentGrid.RenderSize.Height - margin) / dimension;
-            this.AgentGrid.ItemsSource = list;
+            for (int row = 0; row < dimension; row++)
+            {
+                for (int column = 0; column < dimension; column++)
+                {
+                    Tile tile = grid.GetTileByCoordinates(column, row);
+                    var textPanel = new TextBlock
+                    {
+                        Text = tile.getAverageReward().ToString().Substring(0, Math.Min(6, tile.getAverageReward().ToString().Length)),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    };
+
+                    PreviewGrid.Children.Add(textPanel);
+
+                    System.Windows.Controls.Grid.SetRow(textPanel, row);
+                    System.Windows.Controls.Grid.SetColumn(textPanel, column);
+                }   
+            }
+        }
+
+        private void PopulateGridWithAgentPosition(Learning.Grid grid, List<int[]> positions)
+        {
+
+            PreviewGrid.Children.Clear();
+            PreviewGrid.ColumnDefinitions.Clear();
+            PreviewGrid.RowDefinitions.Clear();
+
+            int dimension = grid.Dimension;
+
+            for (int i = 0; i < dimension; i++)
+            {
+                PreviewGrid.RowDefinitions.Add(new RowDefinition());
+                PreviewGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            int index = 0;
+            foreach (int[] position in positions)
+            {
+                var textPanel = new TextBlock
+                {
+                    Text = index.ToString(),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+
+                PreviewGrid.Children.Add(textPanel);
+
+                System.Windows.Controls.Grid.SetRow(textPanel, position[1]);
+                System.Windows.Controls.Grid.SetColumn(textPanel, position[0]);
+
+                index++;
+            }
         }
 
         private void SetWallUp(object sender, RoutedEventArgs e)
@@ -268,7 +308,6 @@ namespace ITOReinforcedLearning
                         if (tile != currentAgentPosition)
                         {
                             tile.Agent = false;
-                            DataGridRow gridRow = (DataGridRow)LearningGrid.ItemContainerGenerator.ContainerFromItem(row);
                         }
                         else
                         {

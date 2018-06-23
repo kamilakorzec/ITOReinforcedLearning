@@ -41,19 +41,8 @@
             </Grid>
         </Grid>
         <Grid DockPanel.Dock="Right">
-            <DataGrid Name="AgentGrid" Height="200" Width="200" VerticalAlignment="Top" Margin="20" HorizontalAlignment="Left"  HeadersVisibility="None" IsReadOnly="true"  AutoGenerateColumns="False" >
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <TextBlock Text="{Binding Path=Reward}"></TextBlock>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </DataGrid.CellStyle>
-            </DataGrid>
+            <Grid Name="PreviewGrid" Height="200" Width="200" VerticalAlignment="Top" Margin="20" HorizontalAlignment="Left" ShowGridLines="True">
+            </Grid>
             <Button Name="train" Click="Train" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,100">Train</Button>
             <Button Name="act" Click="Act" Width="100" Height="20" VerticalAlignment="Bottom" Margin="0,0,50,50" HorizontalAlignment="Right">Act</Button>
         </Grid>

@@ -27,7 +27,7 @@ namespace ITOReinforcedLearning.Learning
 
         public bool IsExit(int[] coordinates)
         {
-            return tiles[Dimension * coordinates[0] + coordinates[1]].Exit;
+            return tiles[Dimension * coordinates[1] + coordinates[0]].Exit;
         }
     }
 }

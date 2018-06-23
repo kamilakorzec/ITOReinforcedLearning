@@ -34,7 +34,7 @@ namespace ITOReinforcedLearning.Learning
         private void Move(State state, PossibleDirections action)
         {
             int[] pos = state.AgentPosition.Last();
-            int[] newPos = pos;
+            int[] newPos = { pos[0], pos[1] };
             int dimension = state.Map.Dimension;
             switch (action)
             {
@@ -103,19 +103,20 @@ namespace ITOReinforcedLearning.Learning
             if (state.Map.IsExit(state.AgentPosition.Last()))
                 reward = rewards[Rewards.EXIT];
 
-            //if position change, small fine (-1)
+            //if position change, no fine (0)
             return reward;
         }
 
-        private void UpdateQTableVals(State state, PossibleDirections action, double reward)
+        private void UpdateQTableVals(State state, PossibleDirections action, double reward, double stepFactor)
         {
+
             double biggestNextReward = learner.Q(state.AgentPosition.Last()).Values.ToArray().Max();
             int[] previousState = state.AgentPosition[state.AgentPosition.Count - 2];
             
             learner.Q(previousState)[action] =
-                learner.Q(previousState)[action] +
+                (1- LearningConstants.Alpha) * learner.Q(previousState)[action] +
                 LearningConstants.Alpha *
-                    (reward + LearningConstants.Gamma * biggestNextReward - learner.Q(previousState)[action]);
+                    (reward + stepFactor * LearningConstants.Gamma * biggestNextReward);
         }
 
         private PossibleDirections GetRandomAction()
@@ -123,14 +124,14 @@ namespace ITOReinforcedLearning.Learning
             return (PossibleDirections) random.Next(4);
         }
 
-        public bool Act(State state, PossibleDirections action)
+        public bool Act(State state, PossibleDirections action, double stepFactor)
         {
             // move Agent
             Move(state, action);
 
             int reward = UpdateRewards(state);
 
-            UpdateQTableVals(state, action, reward);
+            UpdateQTableVals(state, action, reward, stepFactor);
             state.Map
                 .GetTileByCoordinates(state.AgentPosition.Last()[0], state.AgentPosition.Last()[1])
                 .LearningHistory
@@ -141,10 +142,8 @@ namespace ITOReinforcedLearning.Learning
 
         public PossibleDirections ChooseAction(State state, bool isLearning = true)
         {
-            double rand = random.NextDouble();
-
             // explore the environment
-            if (isLearning && rand < LearningConstants.Epsilon) return GetRandomAction();
+            if (isLearning && random.NextDouble() < LearningConstants.Epsilon) return GetRandomAction();
 
             Dictionary<PossibleDirections, double> totalRewards = learner.Q(state.AgentPosition.Last());
             double[] rewardArr = totalRewards.Values.ToArray();

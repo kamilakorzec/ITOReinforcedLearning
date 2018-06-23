@@ -1,4 +1,6 @@
-﻿namespace ITOReinforcedLearning.Learning
+﻿using System.Collections.Generic;
+
+namespace ITOReinforcedLearning.Learning
 {
     class LearningRunner
     {
@@ -18,12 +20,12 @@
             agent = new Agent(new State(grid, agentPosition));
         }
 
-        public void Act(int[] agentPos)
+        public List<int[]> Act(int[] agentPos)
         {
             State state = new State(map, agentPos);
             for (int j = 0; j < stepLimit * 1000; j++)
             {
-                bool isDone = agent.Act(state, agent.ChooseAction(state, false));
+                bool isDone = agent.Act(state, agent.ChooseAction(state, false), (1 - (double)j / stepLimit));
 
                 if (isDone)
                 {
@@ -31,6 +33,8 @@
                     break;
                 }
             }
+
+            return state.AgentPosition;
         }
 
         public void Learn(int[] agentPos)
@@ -41,7 +45,7 @@
 
                 for (int j = 0; j < stepLimit; j++)
                 {
-                    bool isDone = agent.Act(state, agent.ChooseAction(state));
+                    bool isDone = agent.Act(state, agent.ChooseAction(state), (1 -(double)j/stepLimit));
 
                     if(isDone)
                     {
