@@ -94,6 +94,8 @@ namespace ITOReinforcedLearning
             ObservableCollection<ObservableCollection<UIGridTile>> list = new ObservableCollection<ObservableCollection<UIGridTile>>{ };
             this.LearningGrid.Columns.Clear();
 
+            ClearState();
+
             int dimension = int.Parse(this.Dimension.Text);
 
             for(int i = 0; i < dimension; i++)
@@ -150,6 +152,16 @@ namespace ITOReinforcedLearning
                     System.Windows.Controls.Grid.SetColumn(textPanel, column);
                 }   
             }
+        }
+
+        private void ClearState()
+        {
+            exitPositionIndicator.Clear();
+            lastAgentPositionIndicator = null;
+
+            agentPos = null;
+            this.train.IsEnabled = false;
+            this.act.IsEnabled = false;
         }
 
         private void PopulateGridWithAgentPosition(Learning.Grid grid, List<int[]> positions)
