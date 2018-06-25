@@ -249,7 +249,7 @@ namespace ITOReinforcedLearning
             else
             {
                 exitPositionIndicator.Remove(button);
-                this.train.IsEnabled = false;
+                this.train.IsEnabled = exitPositionIndicator.ToArray().Length != 0;
             }
         }
 
