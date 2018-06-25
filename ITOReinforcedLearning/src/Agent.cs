@@ -25,9 +25,9 @@ namespace ITOReinforcedLearning.Learning
         };
             
 
-        public Agent(State initialState)
+        public Agent(State initialState, QLearner qLearner)
         {
-            learner = new QLearner();
+            learner = qLearner;
             currentState = initialState;
         }
 

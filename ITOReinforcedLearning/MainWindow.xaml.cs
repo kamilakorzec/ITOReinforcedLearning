@@ -75,9 +75,9 @@ namespace ITOReinforcedLearning
                 r++;
             }
 
-            runner = new LearningRunner(map, agentPos, dimension * tryCount);
+            runner = new LearningRunner(map, dimension * tryCount);
             
-            runner.Learn(agentPos);
+            runner.Learn();
 
             this.act.IsEnabled = true;
 
