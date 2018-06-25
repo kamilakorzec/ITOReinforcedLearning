@@ -35,7 +35,7 @@ namespace ITOReinforcedLearning
     {
         private LearningRunner runner;
         private Button lastAgentPositionIndicator;
-        private Button lastExitPositionIndicator;
+        private List<Button> exitPositionIndicator = new List<Button>();
         private int[] agentPos;
         private Learning.Grid map;
 
@@ -214,7 +214,7 @@ namespace ITOReinforcedLearning
                     lastAgentPositionIndicator.Background = Brushes.LightGray;
                 }
 
-                if (lastExitPositionIndicator != null)
+                if (exitPositionIndicator != null)
                 {
                     this.train.IsEnabled = true;
                 }
@@ -240,21 +240,15 @@ namespace ITOReinforcedLearning
 
             if (tile.Exit)
             {
-                ClearPreviousExits(tile);
-                if (lastExitPositionIndicator != null)
-                {
-                    lastExitPositionIndicator.Background = Brushes.LightGray;
-                }
-
                 if (lastAgentPositionIndicator != null)
                 {
                     this.train.IsEnabled = true;
                 }
-                lastExitPositionIndicator = button;
+                exitPositionIndicator.Add(button);
             }
             else
             {
-                lastExitPositionIndicator = null;
+                exitPositionIndicator.Remove(button);
                 this.train.IsEnabled = false;
             }
         }
@@ -283,7 +277,7 @@ namespace ITOReinforcedLearning
         {
             foreach(UIElement button in cell.Children)
             {
-                if(button != wall && button != lastAgentPositionIndicator && button != lastExitPositionIndicator)
+                if(button != wall && button != lastAgentPositionIndicator && !exitPositionIndicator.Contains((Button)button))
                 {
                     (button as Button).Background = Brushes.LightGray;
                 }
@@ -317,21 +311,6 @@ namespace ITOReinforcedLearning
                     c++;
                 }
                 r++;
-            }
-        }
-
-        private void ClearPreviousExits(UIGridTile currentExitPosition)
-        {
-            foreach (ObservableCollection<UIGridTile> row in LearningGrid.ItemsSource)
-            {
-                foreach (UIGridTile tile in row)
-                {
-                    if (tile.Exit && tile != currentExitPosition)
-                    {
-                        tile.Exit = false;
-                        DataGridRow gridRow = (DataGridRow)LearningGrid.ItemContainerGenerator.ContainerFromItem(row);
-                    }
-                }
             }
         }
     }
