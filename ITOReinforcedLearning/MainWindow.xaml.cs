@@ -317,7 +317,7 @@ namespace ITOReinforcedLearning
                         }
                         else
                         {
-                            agentPos = new int[] { r, c };
+                            agentPos = new int[] { c, r };
                         }
                     }
                     c++;

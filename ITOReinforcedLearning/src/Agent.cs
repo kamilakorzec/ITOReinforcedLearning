@@ -19,9 +19,9 @@ namespace ITOReinforcedLearning.Learning
 
         private Dictionary<Rewards, int> rewards = new Dictionary<Rewards, int>
         {
-            {Rewards.EXIT, 1000},
-            {Rewards.SINGLE_STEP, -1},
-            {Rewards.WALL, -1000},
+            {Rewards.EXIT, 5},
+            {Rewards.SINGLE_STEP, -50},
+            {Rewards.WALL, -500},
         };
             
 
